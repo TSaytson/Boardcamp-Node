@@ -61,8 +61,8 @@ export async function putCustomer(req, res) {
     const { id } = req.params;
     try {
         await connectionDB.query(`UPDATE customers SET name=$1,
-        cpf=$2, phone=$3, birthday=$4 WHERE id=$5`,
-            [name, cpf, phone, birthday, id]);
+        phone=$2, birthday=$3 WHERE id=$4`,
+            [name, phone, birthday, id]);
         res.status(200).send('Dados do cliente atualizados');
     } catch (error) {
         console.log(error);
