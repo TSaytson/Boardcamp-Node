@@ -1,6 +1,5 @@
 import {customerSchema} from '../schemas/customer.schemas.js';
 import {connectionDB} from '../database/db.js';
-import dayjs from 'dayjs';
 
 export async function validateCustomer(req, res, next){
     const validation = customerSchema.validate(
@@ -21,7 +20,7 @@ export async function validateCustomer(req, res, next){
                 'SELECT * FROM customers WHERE cpf=$1;',
                 [cpf]
             )).rowCount;
-        if (customerFound)
+        if (customerFound && req.method !== 'PUT')
             return res.status(409).send('Cliente já cadastrado');
     } catch (error) {
         console.log(error);
