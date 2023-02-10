@@ -43,8 +43,11 @@ export async function getCustomerById(req, res) {
                 'SELECT * FROM customers WHERE id=$1;',
                 [id]
             )).rows[0];
-        if (customerFound)
+        if (customerFound){
+            customerFound.birthday =
+                (dayjs(customerFound.birthday).toISOString()).substring(0, 10);
             return res.status(200).send(customerFound);
+        }
         else
             return res.status(404).send('Cliente não encontrado');
     } catch (error) {
@@ -54,12 +57,12 @@ export async function getCustomerById(req, res) {
 }
 
 export async function putCustomer(req, res) {
-    const { name, phone, birthday } = res.locals.customer;
+    const { name, cpf, phone, birthday } = res.locals.customer;
     const { id } = req.params;
     try {
         await connectionDB.query(`UPDATE customers SET name=$1,
-        phone=$2, birthday=$3 WHERE id=$4`,
-            [name, phone, birthday, id]);
+        cpf=$2, phone=$3, birthday=$4 WHERE id=$5`,
+            [name, cpf, phone, birthday, id]);
         res.status(200).send('Dados do cliente atualizados');
     } catch (error) {
         console.log(error);
