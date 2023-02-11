@@ -19,9 +19,11 @@ export async function validateCustomer(req, res, next){
             (
                 'SELECT * FROM customers WHERE cpf=$1;',
                 [cpf]
-            )).rowCount;
-        if (customerFound)
-            return res.status(409).send('Cliente já cadastrado');
+            )).rows;
+        if (customerFound.length !== 0)
+            if (req.method !== 'PUT' 
+            || customerFound.name !== name)
+                return res.status(409).send('Cliente já cadastrado');
     } catch (error) {
         console.log(error);
         return res.sendStatus(422);
