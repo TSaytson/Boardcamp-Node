@@ -22,7 +22,7 @@ export async function validateCustomer(req, res, next){
             )).rows;
         if (customerFound.length !== 0)
             if (req.method !== 'PUT' 
-            || customerFound.name !== name)
+            || customerFound[0].name !== name)
                 return res.status(409).send('Cliente já cadastrado');
     } catch (error) {
         console.log(error);

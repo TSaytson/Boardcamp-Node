@@ -71,10 +71,10 @@ export async function getRents(req, res){
 
         for (let i = 0; i < rents.length; i++){
             rents[i].game = (await connectionDB.query(`SELECT 
-            games.id, games.name, games."categoryId",
-            categories.name AS "categoryName" FROM 
-            games JOIN categories ON games."categoryId"=categories.id 
-            WHERE games.id=$1;`, [rents[i].gameId])).rows[0];
+            games.id, games.name
+            FROM 
+            games  
+            WHERE id=$1;`, [rents[i].gameId])).rows[0];
         }
         res.status(200).send(rents);
     } catch(error){
