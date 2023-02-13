@@ -21,11 +21,16 @@ export async function validateRent(req, res, next){
          customers WHERE id=$1;`, [customerId])).rowCount;
         const gameFound = (await connectionDB.query(`SELECT * FROM 
         games WHERE id=$1;`, [gameId])).rows[0];
+        const gameRents = (await connectionDB.query(`
+        SELECT * FROM rentals 
+        WHERE "gameId"=$1 AND "returnDate" ISNULL`, 
+        [gameFound.id])).rowCount;
+        console.log(gameRents);
         if (!customerFound)
             return res.status(400).send('Cliente não encontrado');
         if (!gameFound)
             return res.status(400).send('Jogo não encontrado');
-        if (gameFound.stockTotal < 1)
+        if (gameFound.stockTotal <= gameRents)
             return res.status(400).send('Jogo esgotado');
     } catch( error){
         console.log(error);
