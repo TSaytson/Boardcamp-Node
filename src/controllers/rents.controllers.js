@@ -86,8 +86,7 @@ export async function getRents(req, res){
 
 export async function postRentReturn(req, res){
     const {rent} = res.locals;
-
-    rent.returnDate = dayjs('2023-02-18')
+    
     const returnDate = dayjs(rent.returnDate);
     const rentDate = dayjs(rent.rentDate);
     const dateDiff = (returnDate.diff(rentDate, 'day'));

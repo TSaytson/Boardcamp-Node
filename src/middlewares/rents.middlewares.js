@@ -49,10 +49,15 @@ export async function verifyRent(req, res, next){
     try{
         const rentFound = (await connectionDB.query(`SELECT * FROM 
         rentals WHERE id=$1;`, [id])).rows[0];
+
         if (!rentFound)
             return res.status(404).send('Aluguel não encontrado');
-        if (rentFound.returnDate)
+
+        if (rentFound.returnDate && req.method !== 'DELETE')
             return res.status(400).send('Jogo já devolvido');
+        if (!rentFound.returnDate && req.method === 'DELETE')
+            return res.status(400).send('Aluguel não finalizado');
+        
         rentFound.returnDate = dayjs(Date.now()).toDate();
         res.locals.rent = rentFound;
     } catch (error){
