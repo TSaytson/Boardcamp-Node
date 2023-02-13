@@ -1,4 +1,5 @@
 import { connectionDB } from "../database/db.js";
+import dayjs from 'dayjs';
 
 export async function postRent(req, res){
     const {
@@ -85,8 +86,32 @@ export async function getRents(req, res){
 
 export async function postRentReturn(req, res){
     const {rent} = res.locals;
+
+    rent.returnDate = dayjs('2023-02-18')
+    const returnDate = dayjs(rent.returnDate);
+    const rentDate = dayjs(rent.rentDate);
+    const dateDiff = (returnDate.diff(rentDate, 'day'));
+        
     try{
- 
+        const game = 
+        (await connectionDB.query(`SELECT * FROM
+        games WHERE id=$1;`, [rent.gameId])).rows[0];
+
+        if (dateDiff > rent.daysRented)
+            rent.delayFee = (
+                (dateDiff - rent.daysRented) * game.pricePerDay)
+
+        await connectionDB.query(`UPDATE rentals 
+        SET "returnDate"=$1, "delayFee"=$2 WHERE id=$3`,
+        [rent.returnDate, rent.delayFee, rent.id]);
+
+        await connectionDB.query(`UPDATE games 
+        SET "stockTotal"=$1 WHERE id=$2`, 
+        [++game.stockTotal, rent.gameId]);
+
+        res.status(200).send(`Jogo ${game.name} devolvido em
+        ${dayjs(rent.returnDate).toISOString()} e estoque atualizado para: 
+        ${game.stockTotal}`);
     }
     catch(error){
         console.log(error);

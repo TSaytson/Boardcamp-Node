@@ -54,13 +54,10 @@ export async function verifyRent(req, res, next){
         if (rentFound.returnDate)
             return res.status(400).send('Jogo já devolvido');
         rentFound.returnDate = dayjs(Date.now()).toDate();
-        console.log(
-            rentFound.returnDate.diff(rentFound.rentDate, 'day')
-        )
         res.locals.rent = rentFound;
     } catch (error){
         console.log(error);
-        res.status(500).send(error.message);
+        return res.status(500).send(error.message);
     }
     next();
 }
