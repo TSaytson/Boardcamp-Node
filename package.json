@@ -4,9 +4,16 @@
   "description": "",
   "main": "app.js",
   "type": "module",
+  "apidoc": {
+    "title": "Boardcamp-T9",
+    "description": "Rent your favorite board games",
+    "url": "http://localhost:5000",
+    "version": "0.0.1"
+  },
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "mock" : "mock -p 5001 -w src/"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +23,7 @@
   },
   "dependencies": {
     "@joi/date": "^2.1.0",
+    "apidoc-mock": "^4.5.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",

@@ -1,6 +1,38 @@
 import { connectionDB } from "../database/db.js";
 import dayjs from 'dayjs';
 
+/**
+ * @apiGroup Customers
+ * @api {get} /customers Get
+ * @apiSuccess {Customer[]} Customers List of customers
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 200 OK
+ *     [
+ *      {
+            "name" : "Thiago",
+            "phone" : "2294243424",
+            "cpf" : "13498323033",
+            "birthday" : "1999-01-31"
+        },
+ *     {
+ *       "name" : "Daniel",
+ *       "phone" : "2294243424",
+         "cpf" : "13498323033",
+         "birthday" : "1999-01-31"
+ *     }
+ *      ]
+ * 
+ * @api {post} /customers Create Customer
+ * @apiSuccess (201) {String}   "customer"'s name
+ * @apiSuccessExample {json} Success-Response:
+ *     HTTP/1.1 201 Created
+ *     "Cliente Fulano cadastrado"
+ * @apiError (409) Conflict Cliente já cadastrado
+ * @apiErrorExample {json} Error-Response:
+ *      HTTP/1.1 409 Conflict
+ *      "Cliente já cadastrado"
+ */
+
 export async function postCustomer(req, res) {
     const { name, phone, cpf, birthday } = res.locals.customer;
     try {
@@ -43,7 +75,7 @@ export async function getCustomerById(req, res) {
                 'SELECT * FROM customers WHERE id=$1;',
                 [id]
             )).rows[0];
-        if (customerFound){
+        if (customerFound) {
             customerFound.birthday =
                 (dayjs(customerFound.birthday).toISOString()).substring(0, 10);
             return res.status(200).send(customerFound);
