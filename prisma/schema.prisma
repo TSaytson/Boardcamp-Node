@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model categories {
+  id   Int    @id @default(autoincrement())
+  name String
+}
+
+model customers {
+  id       Int      @id @default(autoincrement())
+  name     String
+  phone    String
+  cpf      String   @db.VarChar(11)
+  birthday DateTime @db.Date
+}
+
+model games {
+  id          Int    @id @default(autoincrement())
+  name        String
+  image       String
+  stockTotal  Int
+  categoryId  Int
+  pricePerDay Int
+}
+
+model rentals {
+  id            Int       @id @default(autoincrement())
+  customerId    Int
+  gameId        Int
+  rentDate      DateTime  @db.Date
+  daysRented    Int
+  returnDate    DateTime? @db.Date
+  originalPrice Int
+  delayFee      Int?
+}

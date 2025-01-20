@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { validateRent, verifyRent } from "../middlewares/rents.middlewares.js";
-import {postRent, getRents, deleteRent, postRentReturn} from '../controllers/rents.controllers.js';
+import {postRent, getRents, deleteRent, postRentReturn} from '../controllers/rentals.controller';
 
 const router = Router();
 

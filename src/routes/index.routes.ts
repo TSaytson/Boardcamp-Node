@@ -1,10 +1,9 @@
 import { Router } from "express";
-import customersRoutes from './customers.routes'
-import gamesRoutes from './games.routes.js'
-import rentalsRoutes from './rentals.routes.js'
+import {customerRouter} from './customers.routes'
+import { categoriesRouter } from "./categories.routes";
 
 const router = Router();
 
-router.use([customersRoutes])
+router.use([categoriesRouter])
 
 export default router

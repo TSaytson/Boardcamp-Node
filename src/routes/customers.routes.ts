@@ -1,12 +1,12 @@
+import { getCustomerById, getCustomers, postCustomer, putCustomer } from "../controllers/customers.controller";
 import { Router } from "express";
-import { validateCustomer } from "../middlewares/customers.middlewares.js";
-import {getCustomers, getCustomerById, postCustomer, putCustomer} from '../controllers/customers.controllers.js';
+import { validateBody, validateParams } from "../middlewares/validation.middleware";
+import { customerSchema } from "../schemas/customer.schema";
+import { idParamsSchema } from "../schemas/idParams.schema";
 
-const router = Router();
+export const customerRouter = Router();
 
-router.get('/customers', getCustomers);
-router.get('/customers/:id', getCustomerById);
-router.post('/customers', validateCustomer, postCustomer);
-router.put('/customers/:id', validateCustomer, putCustomer);
-
-export default router;
+customerRouter.get('/customers', getCustomers);
+customerRouter.get('/customers/:id', getCustomerById);
+customerRouter.post('/customers', validateBody(customerSchema), postCustomer);
+customerRouter.put('/customers/:id', validateParams(idParamsSchema), putCustomer);
