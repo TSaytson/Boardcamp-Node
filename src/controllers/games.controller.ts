@@ -1,29 +1,15 @@
-import { connectionDB } from "../database/db.js";
+import { Request, Response } from "express";
+import { gamesService } from "../services/games.service";
+import { Category } from "../schemas/categories.schema";
 
-export async function getGames(req, res) {
-    try {
-        const games = (await connectionDB.query
-            (`SELECT games.* FROM games`)).rows;
-        res.status(200).send(games);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error.message);
-    }
+export async function getGames(req: Request, res: Response) {
+    const { name } = req.query as Category;
+    const games = await gamesService.getGames(name);
+    res.status(200).send(games);
 }
-export async function postGame(req, res) {
-    try {
-        await connectionDB.query
-            (`
-            INSERT INTO games
-            (name, image, "stockTotal", "pricePerDay")
-            VALUES ($1, $2, $3, $4);`,
-                [res.locals.game.name,
-                res.locals.game.image,
-                res.locals.game.stockTotal,
-                    res.locals.game.pricePerDay]);
-        return res.status(201).send(`Jogo ${res.locals.game.name} adicionado`);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send(error.message);
-    }
+
+export async function postGame(req: Request, res: Response) {
+    const { name, image, stockTotal, categoryId, pricePerDay } = req.body;
+    await gamesService.postGame({ name, image, stockTotal, categoryId, pricePerDay })
+    res.status(201).send({ message: `Jogo ${name} adicionado` });
 }

@@ -10,7 +10,7 @@ async function createCategorie(name: string){
   })
 }
 
-async function findCategoryById(id){
+async function findCategoryById(id:number){
   return await prisma.categories.findFirst({
     where: {id}
   })

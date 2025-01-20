@@ -1,3 +1,4 @@
+import { conflictError } from "../utils/errorUtils";
 import { categoriesRepository } from "../repositories/categories.repository";
 
 async function getCategories(){
@@ -7,7 +8,7 @@ async function getCategories(){
 async function postCategorie(name:string){
   const categorieFound = await categoriesRepository.findCategoryByName(name);
   if (categorieFound)
-      throw ({message: 'Categoria já cadastrada', status:409});
+      throw conflictError("Category already registred");
   return await categoriesRepository.createCategorie(name);
 }
 
