@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { gamesService } from "../services/games.service";
 import { Category } from "../schemas/categories.schema";
+import { Game } from "../schemas/game.schema";
 
 export async function getGames(req: Request, res: Response) {
     const { name } = req.query as Category;
@@ -9,7 +10,7 @@ export async function getGames(req: Request, res: Response) {
 }
 
 export async function postGame(req: Request, res: Response) {
-    const { name, image, stockTotal, categoryId, pricePerDay } = req.body;
+    const { name, image, stockTotal, categoryId, pricePerDay }:Game = req.body;
     await gamesService.postGame({ name, image, stockTotal, categoryId, pricePerDay })
     res.status(201).send({ message: `Jogo ${name} adicionado` });
 }

@@ -1,6 +1,7 @@
 import { conflictError, notFoundError } from "../utils/errorUtils";
 import { categoriesRepository } from "../repositories/categories.repository";
 import { gamesRepository } from "../repositories/games.repository"
+import { Game } from "../schemas/game.schema";
 
 async function getGames(name:string) {
   if (name)
@@ -8,15 +9,15 @@ async function getGames(name:string) {
   return await gamesRepository.findGames();
 }
 
-async function postGame({ name, categoryId, image, pricePerDay, stockTotal }) {
-  const categoryFound = await categoriesRepository.findCategoryById(categoryId)
+async function postGame(game: Game) {
+  const categoryFound = await categoriesRepository.findCategoryById(game.categoryId)
   if (!categoryFound)
     throw notFoundError('Category does not exists');
-  const gameFound = await gamesRepository.findGameByName(name);
+  const gameFound = await gamesRepository.findGameByName(game.name);
   if (gameFound) {
     throw conflictError('Game already registred');
   }
-  return await gamesRepository.createGame({ name, categoryId, image, pricePerDay, stockTotal })
+  return await gamesRepository.createGame(game)
 }
 
 export const gamesService = {

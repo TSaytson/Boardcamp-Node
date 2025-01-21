@@ -1,12 +1,13 @@
+import { Category } from "../schemas/categories.schema";
 import prisma from "../config/database"
 
 async function findCategories(){
   return await prisma.categories.findMany();
 }
 
-async function createCategorie(name: string){
+async function createCategorie(category:Category){
   return await prisma.categories.create({
-    data: {name}
+    data: category
   })
 }
 

@@ -1,11 +1,13 @@
 import { Router } from "express";
-import {postRent, getRents, deleteRent, postRentReturn} from '../controllers/rentals.controller';
+import {postRent, getRents, deleteRent, postRentReturn} from '@/controllers/rentals.controller';
+import { validateBody, validateParams, validateQuery } from "@/middlewares/validation.middleware";
+import { rentalSchema } from "@/schemas/rental.schema";
+import { idParamsSchema } from "@/schemas/idParams.schema";
+import { idQuerySchema } from "@/schemas/rentalQuery.schema";
 
-const router = Router();
+export const rentalsRouter = Router();
 
-router.get('/rentals', getRents);
-router.post('/rentals', validateRent, postRent);
-router.post('/rentals/:id/return', verifyRent, postRentReturn);
-router.delete('/rentals/:id', verifyRent, deleteRent);
-
-export default router;
+rentalsRouter.get('/rentals', validateQuery(idQuerySchema), getRents);
+rentalsRouter.post('/rentals', validateBody(rentalSchema), postRent);
+rentalsRouter.post('/rentals/:id/return', validateParams(idParamsSchema), postRentReturn);
+rentalsRouter.delete('/rentals/:id', validateParams(idParamsSchema), deleteRent);

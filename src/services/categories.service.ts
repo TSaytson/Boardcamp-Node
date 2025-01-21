@@ -1,15 +1,16 @@
 import { conflictError } from "../utils/errorUtils";
 import { categoriesRepository } from "../repositories/categories.repository";
+import { Category } from "../schemas/categories.schema";
 
 async function getCategories(){
   return await categoriesRepository.findCategories();
 }
 
-async function postCategorie(name:string){
-  const categorieFound = await categoriesRepository.findCategoryByName(name);
+async function postCategorie(category: Category){
+  const categorieFound = await categoriesRepository.findCategoryByName(category.name);
   if (categorieFound)
       throw conflictError("Category already registred");
-  return await categoriesRepository.createCategorie(name);
+  return await categoriesRepository.createCategorie(category);
 }
 
 export const categoriesService = {

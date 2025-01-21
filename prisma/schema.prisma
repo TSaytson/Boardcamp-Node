@@ -10,7 +10,7 @@ datasource db {
 model categories {
   id   Int    @id @default(autoincrement())
   name String
-  games games?
+  games games[]
 }
 
 model customers {
@@ -24,20 +24,20 @@ model customers {
 
 model games {
   id          Int    @id @default(autoincrement())
-  name        String
+  name        String @unique
   image       String
   stockTotal  Int
   categories  categories @relation(fields: [categoryId], references: [id])
-  categoryId  Int @unique
+  categoryId  Int
   pricePerDay Int
   rentals     rentals[]
 }
 
 model rentals {
   id            Int       @id @default(autoincrement())
-  customerId    Int       @unique
+  customerId    Int       
   customers     customers @relation(fields: [customerId], references: [id])
-  gameId        Int       @unique
+  gameId        Int       
   games         games     @relation(fields: [gameId], references: [id])
   rentDate      DateTime  @db.Date
   daysRented    Int

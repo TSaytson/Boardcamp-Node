@@ -1,7 +1,9 @@
-import joi from 'joi';
+import { z } from 'zod';
 
-export const rentSchema = joi.object({
-    customerId: joi.number().integer().min(1).required(),
-    gameId: joi.number().integer().min(1).required(),
-    daysRented: joi.number().integer().min(1).required(),
+export const rentalSchema = z.object({
+    customerId: z.number().int().min(1),
+    gameId: z.number().int().min(1),
+    daysRented: z.number().int().min(1),
 });
+
+export type Rental = z.infer<typeof rentalSchema>
