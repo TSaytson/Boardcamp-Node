@@ -1,6 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodSchema } from "zod";
-import httpStatus from 'http-status'
 
 export function validateBody(schema: ZodSchema) {
   return validate(schema, 'body');
@@ -20,7 +19,7 @@ function validate(schema: ZodSchema, type: 'body' | 'params' | 'query') {
     if (!result.success) {
       const errors = result.error.errors.
         map((error) => `Property ${error.path}: ${error.message}`)
-      res.status(httpStatus.UNPROCESSABLE_ENTITY).send(errors);
+      res.status(422).send(errors);
       return;
     }
     next();

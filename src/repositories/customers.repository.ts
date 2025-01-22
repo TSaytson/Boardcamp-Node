@@ -17,7 +17,7 @@ async function findCustomersLikeCpf(cpf:string){
 }
 
 async function findCustomerById(id:number){
-  return await prisma.customers.findUnique({
+  return await prisma.customers.findFirst({
     where: {id}
   })
 }

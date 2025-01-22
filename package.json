@@ -9,16 +9,31 @@
   "scripts": {
     "build": "pnpm exec tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon src/server.ts"
+    "dev": "nodemon src/server.ts",
+    "dev:migration:generate": "pnpm dev:load-envs prisma migrate dev",
+    "dev:load-envs": "dotenv -e .env.development",
+    "test:load-envs": "dotenv -e .env.test",
+    "test": "pnpm test:load-envs jest -- -i",
+    "test:coverage": "pnpm test -- --coverage"
+  },
+  "prisma": {
+    "seed": "pnpm dev:load-envs -- ts-node prisma/seed.prisma.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^9.4.0",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
+    "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
+    "@types/supertest": "^6.0.2",
+    "dotenv-cli": "^8.0.0",
+    "jest": "^29.7.0",
     "prisma": "6.2.1",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.7.3",
@@ -32,7 +47,6 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
-    "http-status": "^2.1.0",
     "joi": "^17.7.0",
     "nodemon": "^3.1.9",
     "zod": "3.21.4"
