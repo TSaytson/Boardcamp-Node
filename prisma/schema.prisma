@@ -15,9 +15,9 @@ model categories {
 
 model customers {
   id       Int      @id @default(autoincrement())
-  name     String
+  name     String   @db.VarChar(50)
   phone    String
-  cpf      String   @db.VarChar(11)
+  cpf      String   @unique @db.VarChar(11)
   birthday DateTime @db.Date
   rentals  rentals[]
 }

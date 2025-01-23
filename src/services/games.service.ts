@@ -2,6 +2,8 @@ import { conflictError, notFoundError } from "../utils/errorUtils";
 import { categoriesRepository } from "../repositories/categories.repository";
 import { gamesRepository } from "../repositories/games.repository"
 import { Game } from "../schemas/game.schema";
+import { categoryNotFoundError } from "@/errors/not-found.errors";
+import { gameConflictError } from "@/errors/conflict.errors";
 
 async function getGames(name:string) {
   if (name)
@@ -12,10 +14,10 @@ async function getGames(name:string) {
 async function postGame(game: Game) {
   const categoryFound = await categoriesRepository.findCategoryById(game.categoryId)
   if (!categoryFound)
-    throw notFoundError('Category does not exists');
+    throw categoryNotFoundError();
   const gameFound = await gamesRepository.findGameByName(game.name);
   if (gameFound) {
-    throw conflictError('Game already registred');
+    throw gameConflictError();
   }
   return await gamesRepository.createGame(game)
 }

@@ -13,7 +13,7 @@
     "dev:migration:generate": "pnpm dev:load-envs prisma migrate dev",
     "dev:load-envs": "dotenv -e .env.development",
     "test:load-envs": "dotenv -e .env.test",
-    "test": "pnpm test:load-envs jest -- -i",
+    "test": "pnpm test:load-envs jest -- --verbose",
     "test:coverage": "pnpm test -- --coverage"
   },
   "prisma": {

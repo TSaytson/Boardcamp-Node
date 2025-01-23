@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 function generateCustomerSchema(){
   return {
     name: faker.helpers.uniqueArray(faker.person.fullName, 1)[0],
-    phone: faker.phone.number().split('-').join(),
+    phone: faker.string.numeric({length: {min: 10, max: 11}}),
     cpf: faker.string.numeric(11),
     birthday: dayjs(faker.date.birthdate()).format('YYYY-MM-DD')
   }
@@ -14,7 +14,7 @@ function generateCustomerSchema(){
 function generateCustomer(){
   return {
     name: faker.helpers.uniqueArray(faker.person.fullName, 1)[0],
-    phone: faker.phone.number().split('-').join(),
+    phone: faker.string.numeric({length: {min: 10, max: 11}}),
     cpf: faker.string.numeric(11),
     birthday: faker.date.birthdate()
   }

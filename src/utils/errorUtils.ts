@@ -23,7 +23,7 @@ export function errorStatusCode(type: AppErrorTypes){
     case "unauthorized":
       return 401;
     case "unprocessable-entity":
-      return 422;  
+      return 422;
     default:
       return 400;
   }

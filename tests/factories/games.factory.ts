@@ -1,9 +1,9 @@
 import prisma from "@/config/database";
-import { faker } from "@faker-js/faker/.";
+import { fakerPT_BR as faker } from "@faker-js/faker/.";
 
 function generateGame(categoryId: number) {
   return {
-    name: faker.book.title(),
+    name: faker.helpers.uniqueArray(faker.book.title, 1)[0],
     image: faker.internet.url(),
     stockTotal: faker.number.int({max: 10}),
     pricePerDay: faker.number.int({min: 1000, max: 10000}),
