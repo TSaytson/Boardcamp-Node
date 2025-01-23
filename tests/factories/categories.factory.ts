@@ -8,13 +8,13 @@ function generateCategory(){
 }
 
 function createCategory(){
-  return prisma.categories.create({
+  return prisma.category.create({
     data: generateCategory()
   })
 }
 
 function createManyCategories(){
-  return prisma.categories.createMany({
+  return prisma.category.createMany({
     data: [
       generateCategory(),
       generateCategory(),

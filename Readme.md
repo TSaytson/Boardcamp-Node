@@ -102,7 +102,7 @@ Boardcamp API handles REST requests for board games rentals as described below
 #### status 201
 ```
 {
-	"message": "Client João Alfredo registred"
+	"message": "Client João Alfredo registered"
 }
 ```
 ### PUT /customers/:customerId
@@ -209,7 +209,7 @@ Boardcamp API handles REST requests for board games rentals as described below
 #### status 201
 ```
 {
-  "message": "Rental on 19/01/2025 registred"
+  "message": "Rental on 19/01/2025 registered"
 }
 ```
 ### POST /rentals/:rentalId/return

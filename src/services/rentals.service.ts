@@ -1,12 +1,12 @@
-import { customersRepository } from "@/repositories/customers.repository";
-import { gamesRepository } from "@/repositories/games.repository";
-import { rentalsRepository } from "@/repositories/rentals.repository";
-import { badRequestError, notFoundError } from "@/utils/errorUtils";
-import { rentals } from "@prisma/client";
+import { customersRepository } from "../repositories/customers.repository";
+import { gamesRepository } from "../repositories/games.repository";
+import { rentalsRepository } from "../repositories/rentals.repository";
+import { badRequestError, notFoundError } from "../utils/errorUtils";
+import { Rental } from "@prisma/client";
 import dayjs from "dayjs";
 
 async function postRental({customerId, gameId, rentDate, daysRented, returnDate, delayFee}
-  :Omit<rentals, 'id' | 'originalPrice'>) {
+  :Omit<Rental, 'id' | 'originalPrice' | 'createdAt' | 'updatedAt'>) {
   const customerFound = await customersRepository.findCustomerById(customerId);
   if (!customerFound)
     throw notFoundError('Customer not found');

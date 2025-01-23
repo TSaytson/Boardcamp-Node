@@ -1,9 +1,8 @@
-import { conflictError, notFoundError } from "../utils/errorUtils";
 import { categoriesRepository } from "../repositories/categories.repository";
 import { gamesRepository } from "../repositories/games.repository"
 import { Game } from "../schemas/game.schema";
-import { categoryNotFoundError } from "@/errors/not-found.errors";
-import { gameConflictError } from "@/errors/conflict.errors";
+import { categoryNotFoundError } from "../errors/not-found.errors";
+import { gameConflictError } from "../errors/conflict.errors";
 
 async function getGames(name:string) {
   if (name)

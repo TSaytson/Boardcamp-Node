@@ -17,9 +17,9 @@ describe('GET /games', () => {
   it('should return 200 status code and a list of games', async () => {
     const { id: categoryId } = await categoriesFactory.createCategory();
     await gamesFactory.createManyGames(categoryId);
-    const createdGames = await prisma.games.findMany({
+    const createdGames = await prisma.game.findMany({
       include: {
-        categories: {
+        category: {
           select: {
             name: true
           }
@@ -33,7 +33,7 @@ describe('GET /games', () => {
   it('should return status 200 and a list of games matching name', async () => {
     const { id: categoryId } = await categoriesFactory.createCategory();
     await gamesFactory.createManyGames(categoryId);
-    const createdGames = await prisma.games.findMany();
+    const createdGames = await prisma.game.findMany();
     const response = await api.get(`/games?name=${createdGames[0].name}`);
     expect(response.status).toBe(200);
     expect(response.body).toEqual([

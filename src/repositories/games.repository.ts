@@ -1,11 +1,10 @@
-import { games } from "@prisma/client"
 import prisma from "../config/database"
 import { Game } from "schemas/game.schema"
 
 async function findGames() {
-  return await prisma.games.findMany({
+  return await prisma.game.findMany({
     include: {
-      categories: {
+      category: {
         select: {
           name: true
         }
@@ -15,19 +14,19 @@ async function findGames() {
 }
 
 async function findGameById(id: number) {
-  return await prisma.games.findFirst({
+  return await prisma.game.findFirst({
     where: { id }
   })
 }
 
 async function findGameByName(name: string) {
-  return await prisma.games.findFirst({
+  return await prisma.game.findFirst({
     where: { name }
   })
 }
 
 async function findGamesLikeName(name: string) {
-  return await prisma.games.findMany({
+  return await prisma.game.findMany({
     where: {
       name: {
         startsWith: name,
@@ -35,7 +34,7 @@ async function findGamesLikeName(name: string) {
       }
     },
     include: {
-      categories: {
+      category: {
         select: {
           name: true
         }
@@ -45,7 +44,7 @@ async function findGamesLikeName(name: string) {
 }
 
 async function createGame(game: Game) {
-  return await prisma.games.create({
+  return await prisma.game.create({
     data: game
   })
 }

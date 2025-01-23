@@ -1,5 +1,5 @@
-import { Rental } from '@/schemas/rental.schema';
-import { rentalsService } from '@/services/rentals.service';
+import { Rental } from '../schemas/rental.schema';
+import { rentalsService } from '../services/rentals.service';
 import dayjs from 'dayjs';
 import { Request, Response } from 'express';
 
@@ -11,7 +11,7 @@ export async function postRent(req: Request, res: Response) {
 
     await rentalsService.postRental({ customerId, gameId, daysRented, rentDate, returnDate, delayFee })
     res.status(201).send({message:
-        `Rental on ${dayjs(rentDate).format('DD/MM/YYYY')} registred`});
+        `Rental on ${dayjs(rentDate).format('DD/MM/YYYY')} registered`});
 }
 
 export async function getRentals(req: Request, res: Response) {

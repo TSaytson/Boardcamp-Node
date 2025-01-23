@@ -35,7 +35,7 @@ describe('POST /categories', () => {
   it('should respond with 201 status code and create category in the database', async () => {
     const generatedCategory = categoriesFactory.generateCategory();
     const response = await api.post('/categories').send(generatedCategory);
-    const createdCategory = await prisma.categories.findUnique({
+    const createdCategory = await prisma.category.findUnique({
       where: {name: generatedCategory.name}
     })
     

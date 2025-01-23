@@ -7,41 +7,57 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model categories {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-  games games[]
+model Category {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  game      Game[]
+
+  @@map("categories")
 }
 
-model customers {
-  id       Int      @id @default(autoincrement())
-  name     String   @db.VarChar(50)
-  phone    String
-  cpf      String   @unique @db.VarChar(11)
-  birthday DateTime @db.Date
-  rentals  rentals[]
+model Customer {
+  id        Int       @id @default(autoincrement())
+  name      String    @db.VarChar(50)
+  phone     String
+  cpf       String    @unique @db.VarChar(11)
+  birthday  DateTime  @db.Date
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  rental    Rental[]
+
+  @@map("customers")
 }
 
-model games {
-  id          Int    @id @default(autoincrement())
-  name        String @unique
+model Game {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
   image       String
   stockTotal  Int
-  categories  categories @relation(fields: [categoryId], references: [id])
+  category    Category  @relation(fields: [categoryId], references: [id])
   categoryId  Int
   pricePerDay Int
-  rentals     rentals[]
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime? @updatedAt @map("updated_at")
+  rental      Rental[]
+
+  @@map("games")
 }
 
-model rentals {
+model Rental {
   id            Int       @id @default(autoincrement())
-  customerId    Int       
-  customers     customers @relation(fields: [customerId], references: [id])
-  gameId        Int       
-  games         games     @relation(fields: [gameId], references: [id])
+  customerId    Int
+  customer      Customer  @relation(fields: [customerId], references: [id])
+  gameId        Int
+  game          Game      @relation(fields: [gameId], references: [id])
   rentDate      DateTime  @db.Date
   daysRented    Int
   returnDate    DateTime? @db.Date
   originalPrice Int
   delayFee      Int?
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
+
+  @@map("rentals")
 }

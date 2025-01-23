@@ -21,13 +21,13 @@ function generateCustomer(){
 }
 
 function createCustomer(){
-  return prisma.customers.create({
+  return prisma.customer.create({
     data: generateCustomer()
   })
 }
 
 function createManyCustomers(){
-  return prisma.customers.createMany({
+  return prisma.customer.createMany({
     data: [
       generateCustomer(),
       generateCustomer(),

@@ -12,13 +12,13 @@ function generateGame(categoryId: number) {
 }
 
 function createGame(categoryId: number){
-  return prisma.games.create({
+  return prisma.game.create({
     data: generateGame(categoryId)
   })
 }
 
 function createManyGames(categoryId: number){
-  return prisma.games.createMany({
+  return prisma.game.createMany({
     data: [
       generateGame(categoryId),
       generateGame(categoryId),
