@@ -6,7 +6,7 @@ export async function postCustomer(req: Request, res: Response) {
     const { name, phone, cpf, birthday }: Customer = req.body;
     await customersService.postCustomer({name, phone, cpf, birthday})
     res.status(201).send({message:
-        `Cliente ${name} cadastrado`});
+        `Client ${name} registred`});
 }
 
 export async function getCustomers(req: Request, res: Response) {
@@ -27,6 +27,6 @@ export async function putCustomer(req: Request, res: Response) {
     const { name, cpf, phone, birthday }:Customer = req.body;
     const id = parseInt(req.params.id);
     await customersService.putCustomer({id, name, cpf, phone, birthday})
-    res.status(200).send({message: 'Dados do cliente atualizados'});
+    res.status(200).send({message: 'Client data updated'});
 
 }

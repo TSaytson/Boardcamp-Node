@@ -4,7 +4,6 @@ import { gamesService } from "@/services/games.service"
 import { faker } from "@faker-js/faker/."
 import { gamesFactory } from "../factories/games.factory"
 import { categoryNotFoundError } from "@/errors/not-found.errors"
-import { categoriesFactory } from "../factories/categories.factory"
 import { gameConflictError } from "@/errors/conflict.errors"
 
 describe('Games service unit tests suite', () => {

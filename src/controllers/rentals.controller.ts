@@ -11,10 +11,10 @@ export async function postRent(req: Request, res: Response) {
 
     await rentalsService.postRental({ customerId, gameId, daysRented, rentDate, returnDate, delayFee })
     res.status(201).send({message:
-        `Aluguel de ${dayjs(rentDate).format('DD/MM/YYYY')} cadastrado`});
+        `Rental on ${dayjs(rentDate).format('DD/MM/YYYY')} registred`});
 }
 
-export async function getRents(req: Request, res: Response) {
+export async function getRentals(req: Request, res: Response) {
     const { customerId, gameId } = req.query as unknown as
         { customerId: number, gameId: number };
     const rentals = await rentalsService.getRentals(+customerId, +gameId)
@@ -24,7 +24,7 @@ export async function getRents(req: Request, res: Response) {
 export async function postRentReturn(req: Request, res: Response) {
     const { id } = req.params;
     const gameRented = await rentalsService.rentalReturn(+id);
-    res.status(200).send({message:`Aluguel de ${gameRented!.name} devolvido em
+    res.status(200).send({message:`Rental of ${gameRented!.name} returned at
     ${dayjs(Date.now()).format('DD/MM/YYYY')}`});
 }
 export async function deleteRent(req: Request, res: Response) {

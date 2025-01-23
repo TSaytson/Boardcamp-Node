@@ -12,5 +12,5 @@ export async function getGames(req: Request, res: Response) {
 export async function postGame(req: Request, res: Response) {
     const { name, image, stockTotal, categoryId, pricePerDay }:Game = req.body;
     await gamesService.postGame({ name, image, stockTotal, categoryId, pricePerDay })
-    res.status(201).send({ message: `Jogo ${name} adicionado` });
+    res.status(201).send({ message: `Game ${name} saved` });
 }

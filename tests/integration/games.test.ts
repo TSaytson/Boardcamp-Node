@@ -3,7 +3,6 @@ import supertest from "supertest";
 import { cleanDb } from "../helpers/cleanDb";
 import { gamesFactory } from "../factories/games.factory";
 import { categoriesFactory } from "../factories/categories.factory";
-import { faker } from "@faker-js/faker/.";
 import prisma from "@/config/database";
 import { categoryNotFoundError } from "@/errors/not-found.errors";
 import { gameConflictError } from "@/errors/conflict.errors";
@@ -12,7 +11,7 @@ const api = supertest(app)
 
 beforeEach(async () => await cleanDb())
 
-afterAll(async () => prisma.$disconnect())
+afterAll(async () => await prisma.$disconnect())
 
 describe('GET /games', () => {
   it('should return 200 status code and a list of games', async () => {

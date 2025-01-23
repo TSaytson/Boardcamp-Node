@@ -10,5 +10,5 @@ export async function getCategories(req: Request, res: Response) {
 export async function postCategorie(req: Request, res: Response) {
   const { name }:Category = req.body;
   await categoriesService.postCategorie({name});
-  res.status(201).send({ message: `Categoria ${name} criada` });
+  res.status(201).send({ message: `Category ${name} created` });
 }

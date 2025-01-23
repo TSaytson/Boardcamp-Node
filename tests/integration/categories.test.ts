@@ -6,13 +6,9 @@ import prisma from "@/config/database";
 
 const api = supertest(app)
 
-beforeEach(async () => {
-  await cleanDb();
-})
+beforeEach(async () => await cleanDb())
 
-afterAll(async () => {
-  await prisma.$disconnect()
-})
+afterAll(async () =>  await prisma.$disconnect())
 
 describe('GET /categories', () => {
   it('should return 200 status code and a list of categories', async () => {
