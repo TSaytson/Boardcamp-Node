@@ -13,6 +13,7 @@
     "dev:migration:generate": "pnpm dev:load-envs prisma migrate dev",
     "dev:load-envs": "dotenv -e .env.development",
     "test:load-envs": "dotenv -e .env.test",
+    "test:migration:generate": "pnpm test:load-envs prisma migrate dev",
     "test": "pnpm test:load-envs jest -- --verbose",
     "test:coverage": "pnpm test -- --coverage"
   },
@@ -40,14 +41,12 @@
     "typescript-transform-paths": "^3.5.3"
   },
   "dependencies": {
-    "@joi/date": "^2.1.0",
     "@prisma/client": "6.2.1",
     "cors": "^2.8.5",
     "dayjs": "^1.11.7",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-async-errors": "^3.1.1",
-    "joi": "^17.7.0",
     "nodemon": "^3.1.9",
     "zod": "3.21.4"
   }

@@ -1,5 +1,38 @@
 # Welcome to Boardcamp API
-The API for the lovers of board games. Boardcamp API handles REST requests for board games rentals as described below
+The API for the lovers of board games.
+## About
+Boardcamp is a REST API to manage board games rentals.
+
+## How to run for development
+1. Clone this repository
+```
+git clone https://github.com/TSaytson/boardcamp-node
+```
+2. Install the dependencies (remove pnpm-lock.yaml if using other package manager than pnpm)
+```
+pnpm i
+```
+3. Create a PostgreSQL database with the name you want
+4. Configure the .env file using the .env.example file
+5. Run all migrations
+```
+pnpm dlx prisma migrate dev
+```
+6. Run the back-end in a development environment:
+```
+pnpm dev
+```
+## How to run tests
+1. Configure the .env.test file using the .env.example file
+2. Run all migrations
+```
+pnpm test:migration:generate
+```
+3. Run tests: (locally)
+```
+pnpm test
+```
+Boardcamp API handles REST requests for board games rentals as described below
 
 ## Categories
 
