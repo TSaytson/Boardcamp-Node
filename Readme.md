@@ -32,6 +32,17 @@ pnpm test:migration:generate
 ```
 pnpm test
 ```
+## How to run with docker
+1. Configure the .env file accordingly to .env.example file
+2. Run docker compose
+```
+docker compose up -d (Ubuntu)
+```
+3. Run migration script
+```
+pnpm deploy:migration:generate
+```
+
 Boardcamp API handles REST requests for board games rentals as described below
 
 ## Categories

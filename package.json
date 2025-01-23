@@ -10,7 +10,7 @@
     "build": "pnpm tsc",
     "start": "node dist/src/server.js",
     "dev": "pnpm dev:load-envs nodemon src/server.ts",
-    "deploy:migration:generate": "docker exec node_app pnpm dlx prisma migrate dev",
+    "deploy:migration:generate": "docker exec boardcamp_api pnpm dlx prisma migrate dev",
     "migration:run": "prisma migrate deploy",
     "dev:migration:generate": "pnpm dev:load-envs prisma migrate dev",
     "dev:load-envs": "dotenv -e .env.development",
