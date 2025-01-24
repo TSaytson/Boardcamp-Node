@@ -7,3 +7,7 @@ export function categoryConflictError(){
 export function gameConflictError(){
   return conflictError("Game already registered")
 }
+
+export function customerConflictError(){
+  return conflictError("Customer already reigstered")
+}

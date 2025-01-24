@@ -10,10 +10,10 @@ beforeEach(async () => await cleanDb())
 
 afterAll(async () =>  await prisma.$disconnect())
 
-describe('GET /categories', () => {
+describe('GET /api/categories', () => {
   it('should return 200 status code and a list of categories', async () => {
     await categoriesFactory.createManyCategories()
-    const response = await api.get('/categories')
+    const response = await api.get('/api/categories')
     expect(response.status).toBe(200);
     expect(response.body).toEqual(
       expect.arrayContaining([
@@ -25,7 +25,7 @@ describe('GET /categories', () => {
     )
   })
   it('should return 200 status code and an empty array', async () => {
-    const response = await api.get('/categories')
+    const response = await api.get('/api/categories')
     expect(response.status).toBe(200);
     expect(response.body).toEqual([])
   })
@@ -34,7 +34,7 @@ describe('GET /categories', () => {
 describe('POST /categories', () => {
   it('should respond with 201 status code and create category in the database', async () => {
     const generatedCategory = categoriesFactory.generateCategory();
-    const response = await api.post('/categories').send(generatedCategory);
+    const response = await api.post('/api/categories').send(generatedCategory);
     const createdCategory = await prisma.category.findUnique({
       where: {name: generatedCategory.name}
     })
@@ -47,7 +47,7 @@ describe('POST /categories', () => {
   })
   it('should respond with 409 status when sending and already registred category', async () => {
     const createdCategory = await categoriesFactory.createCategory();
-    const response = await api.post('/categories').send(createdCategory);
+    const response = await api.post('/api/categories').send(createdCategory);
     expect(response.status).toBe(409);
   })
 })

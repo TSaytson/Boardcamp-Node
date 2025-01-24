@@ -1,11 +1,12 @@
-import { conflictError, notFoundError } from "../utils/errorUtils";
 import { customersRepository } from "../repositories/customers.repository"
 import { Customer, CustomerEntity } from "../schemas/customer.schema";
+import { customerConflictError } from "../errors/conflict.errors";
+import { customerNotFoundError } from "../errors/not-found.errors";
 
 async function postCustomer(customer:Customer) {
   const customerFound = await customersRepository.findCustomerByCpf(customer.cpf);
   if (customerFound)
-    throw conflictError('Cliente já cadastrado');
+    throw customerConflictError();
   return await customersRepository.createCustomer(customer)
 }
 
@@ -22,7 +23,7 @@ async function getCustomerById(id:number) {
 async function putCustomer({ id, name, phone, birthday }:CustomerEntity) {
   const customerFound = await customersRepository.findCustomerById(id);
   if (!customerFound)
-    throw notFoundError("Customer does not exists")
+    throw customerNotFoundError()
   return await customersRepository.updateCustomer({ id, name, phone, birthday });
 }
 

@@ -6,6 +6,6 @@ import { rentalsRouter } from "./rentals.routes";
 
 const router = Router();
 
-router.use([categoriesRouter, gamesRouter, customerRouter, rentalsRouter])
+router.use('/api', [categoriesRouter, gamesRouter, customerRouter, rentalsRouter])
 
 export default router
