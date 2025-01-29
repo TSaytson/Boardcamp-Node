@@ -40,7 +40,7 @@ docker compose up -d (Ubuntu)
 ```
 3. Run migration script
 ```
-pnpm deploy:migration:generate
+docker exec boardcamp_api pnpm deploy:migration:generate
 ```
 
 Boardcamp API handles REST requests for board games rentals as described below

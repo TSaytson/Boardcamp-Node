@@ -24,7 +24,7 @@ export async function getRentals(req: Request, res: Response) {
 export async function postRentReturn(req: Request, res: Response) {
     const { id } = req.params;
     const gameRented = await rentalsService.rentalReturn(+id);
-    res.status(200).send({message:`Rental of ${gameRented!.name} returned at
+    res.status(200).send({message:`Rental of ${gameRented!.name} returned on
     ${dayjs(Date.now()).format('DD/MM/YYYY')}`});
 }
 export async function deleteRent(req: Request, res: Response) {

@@ -6,7 +6,7 @@ export async function postCustomer(req: Request, res: Response) {
     const { name, phone, cpf, birthday }: Customer = req.body;
     await customersService.postCustomer({name, phone, cpf, birthday})
     res.status(201).send({message:
-        `Customer ${name} registred`});
+        `Customer ${name} registered`});
 }
 
 export async function getCustomers(req: Request, res: Response) {

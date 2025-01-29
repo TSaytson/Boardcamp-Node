@@ -17,7 +17,10 @@ async function getCustomers(cpf:string) {
 }
 
 async function getCustomerById(id:number) {
-  return await customersRepository.findCustomerById(id)
+  const customerFound = await customersRepository.findCustomerById(id)
+  if (!customerFound)
+    throw customerNotFoundError()
+  return customerFound;
 }
 
 async function putCustomer({ id, name, phone, birthday }:CustomerEntity) {

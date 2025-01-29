@@ -24,6 +24,9 @@
       "Customer": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "number"
+          },
           "name": {
             "type": "string"
           },
@@ -41,6 +44,9 @@
       "Game": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "number"
+          },
           "name": {
             "type": "string"
           },
@@ -54,15 +60,86 @@
             "type": "number"
           },
           "categoryId": {
-            "type":"number"
+            "type": "number"
           }
         }
       },
       "Category": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "number"
+          },
           "name": {
             "type": "string"
+          }
+        }
+      },
+      "Rental": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "customerId": {
+            "type": "number"
+          },
+          "gameId": {
+            "type": "number"
+          },
+          "rentDate": {
+            "type": "string"
+          },
+          "daysRented": {
+            "type": "number"
+          },
+          "returnDate": {
+            "type": "string"
+          },
+          "originalPrice": {
+            "type": "number"
+          },
+          "delayFee": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "customer": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "game": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "name": {
+                "type": "string"
+              },
+              "category": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -102,10 +179,22 @@
               "application/json": {
                 "schema": {
                   "type": "array",
-                  "properties": {
-                    "message": {
-                      "type": "string"
+                  "items": {
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
                     }
+                  }
+                },
+                "examples": {
+                  "unprocessable-entity": {
+                    "value": [
+                      "Property name: Required",
+                      "Property phone: Required",
+                      "Property cpf: Required",
+                      "Property birthday: Required"
+                    ]
                   }
                 }
               }
@@ -120,6 +209,13 @@
                   "properties": {
                     "message": {
                       "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "value": {
+                      "message": "Customer already registered"
                     }
                   }
                 }
@@ -137,6 +233,13 @@
                       "type": "string"
                     }
                   }
+                },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "message": "Customer João Pedro registered"
+                    }
+                  }
                 }
               }
             }
@@ -144,18 +247,141 @@
         }
       },
       "get": {
-        "tags": ["Customers"],
+        "tags": [
+          "Customers"
+        ],
         "summary": "List all customers",
         "description": "Receives an array containing customers data",
+        "parameters": [
+          {
+            "name": "cpf",
+            "in": "query",
+            "description": "Find customers whose cpf starts with",
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
-            "description":"List all customers",
+            "description": "List all customers",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/Customer"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customers/{id}": {
+      "get": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "Find a customer by id",
+        "description": "Receives an array containing one customer data",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Search for a customer matching the id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends an object containing customer data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Customer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer does not exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not-found": {
+                    "value": {
+                      "message": "Customer does not exists"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Customers"
+        ],
+        "summary": "Update customer",
+        "description": "Route responsible for changing customer data",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Search the customer to be updated by its id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sends an object containing customer data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "sucess": {
+                    "value": {
+                      "message": "Client data updated"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer does not exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not-found": {
+                    "value": {
+                      "message": "Customer does not exists"
+                    }
                   }
                 }
               }
@@ -175,14 +401,14 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Customer"
+                "$ref": "#/components/schemas/Game"
               },
               "examples": {
-                "customer": {
+                "game": {
                   "value": {
-                    "name" : "7 Wonders",
-                    "image" : "https://upload.wikimedia.org/wikipedia/en/0/0b/7_Wonders_-_New_Edition_boxart.png",
-                    "stockTotal" : 2,
+                    "name": "7 Wonders",
+                    "image": "https://upload.wikimedia.org/wikipedia/en/0/0b/7_Wonders_-_New_Edition_boxart.png",
+                    "stockTotal": 2,
                     "pricePerDay": 1500,
                     "categoryId": 1
                   }
@@ -203,6 +429,17 @@
                       "type": "string"
                     }
                   }
+                },
+                "examples": {
+                  "unprocessable-entity": {
+                    "value": [
+                      "Property name: Required",
+                      "Property image: Required",
+                      "Property stockTotal: Required",
+                      "Property pricePerDay: Required",
+                      "Property categoryId: Required"
+                    ]
+                  }
                 }
               }
             }
@@ -216,6 +453,13 @@
                   "properties": {
                     "message": {
                       "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "value": {
+                      "message": "Game already registered"
                     }
                   }
                 }
@@ -233,6 +477,13 @@
                       "type": "string"
                     }
                   }
+                },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "message": "Game 7 Wonders saved"
+                    }
+                  }
                 }
               }
             }
@@ -240,12 +491,22 @@
         }
       },
       "get": {
-        "tags": ["Games"],
+        "tags": [
+          "Games"
+        ],
         "summary": "List all games",
         "description": "Receives an array containing games data",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Find games which name starts with",
+            "required": false
+          }
+        ],
         "responses": {
           "200": {
-            "description":"List all games",
+            "description": "List all games",
             "content": {
               "application/json": {
                 "schema": {
@@ -274,7 +535,7 @@
                 "$ref": "#/components/schemas/Category"
               },
               "examples": {
-                "customer": {
+                "category": {
                   "value": {
                     "name": "Investigation"
                   }
@@ -295,6 +556,13 @@
                       "type": "string"
                     }
                   }
+                },
+                "examples": {
+                  "unprocessable-entity": {
+                    "value": [
+                      "Property name: Required"
+                    ]
+                  }
                 }
               }
             }
@@ -308,6 +576,13 @@
                   "properties": {
                     "message": {
                       "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "conflict": {
+                    "value": {
+                      "message": "Category already registered"
                     }
                   }
                 }
@@ -325,6 +600,13 @@
                       "type": "string"
                     }
                   }
+                },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "message": "Category Investigation created"
+                    }
+                  }
                 }
               }
             }
@@ -332,12 +614,14 @@
         }
       },
       "get": {
-        "tags": ["Categories"],
+        "tags": [
+          "Categories"
+        ],
         "summary": "List all categories",
         "description": "Receives an array containing categories data",
         "responses": {
           "200": {
-            "description":"List all categories",
+            "description": "List all categories",
             "content": {
               "application/json": {
                 "schema": {
@@ -348,6 +632,325 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/rentals": {
+      "get": {
+        "tags": [
+          "Rentals"
+        ],
+        "summary": "List all rentals",
+        "description": "Sends an array containing rentals data",
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "description": "Find rentals by customer id",
+            "required": false
+          },
+          {
+            "name": "gameId",
+            "in": "query",
+            "description": "Find rentals by game id",
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List all rentals",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Rental"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Rentals"
+        ],
+        "summary": "Register a rental",
+        "description": "Route responsible for rental creation",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "customerId": {
+                    "type": "number"
+                  },
+                  "gameId": {
+                    "type": "number"
+                  },
+                  "daysRented": {
+                    "type": "number"
+                  }
+                }
+              },
+              "examples": {
+                "rental": {
+                  "value": {
+                    "customerId": 1,
+                    "gameId": 1,
+                    "daysRented": 3
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "422": {
+            "description": "Invalid rental format",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "unprocessable-entity": {
+                    "value": [
+                      "Property customerId: Required",
+                      "Property gameId: Required",
+                      "Property daysRented: Required"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "There is no more available game in stock",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "bad-request": {
+                    "value": {
+                      "message": "Game sold out"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Customer or game could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not-found": {
+                    "value": {
+                      "message": "Customer | Game not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Rental has been registered",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "message": "Rental on 28/01/2025 registered"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/{id}/return": {
+      "post": {
+        "tags": [
+          "Rentals"
+        ],
+        "summary":"Return a game rental",
+        "description": "Provide the id of the rental to be returned",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"Id of a rental that exists",
+            "required":true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Rental has finished and game has already been returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "bad-request": {
+                    "value": {
+                      "message": "Game already returned"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Rental id could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not-found": {
+                    "value": {
+                      "message": "Rental not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Rental has been returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "created": {
+                    "value": {
+                      "message": "Rental of 7 Wonders returned on 28/01/2025"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/rentals/{id}": {
+      "delete": {
+        "tags": [
+          "Rentals"
+        ],
+        "summary": "Delete a rental",
+        "description":"Provide the id of a rental thas has been returned to be deleted",
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description": "Id of a rental that exists",
+            "required":true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Rental has not been finished yet",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "bad-request": {
+                    "value": {
+                      "message": "Rental is still open"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Rental id could not be found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "not-found": {
+                    "value": {
+                      "message": "Rental not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Rental has been deleted"
           }
         }
       }
